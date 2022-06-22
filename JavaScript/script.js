@@ -34,6 +34,17 @@ przeszkody[0]= new Przeszkoda(40,170,35,40,5,'grzyb.png')
 przeszkody[1]= new Przeszkoda(420,340,35,40,10,'ogien.png')
 
 
+var Grafikapostaci = new Image();
+Grafikapostaci.src = 'postac.png';
+var xPos = 10;
+var yPos= 20;
+var szerPos=50;
+var wysPos=50;
+var hp=100;
+
+var dy=0;
+
+
 
 function rysuj()
 {
@@ -41,6 +52,57 @@ function rysuj()
     rysujPlatformy();
     rysujMonety();
     rysujPrzeszkody();
+    context.drawImage(Grafikapostaci,xPos,yPos,szerPos,wysPos);
+    grawitacja();   
+    
+    xPos = xPos + dx;
+}
+
+var dx=0;
+function ruchPostaci(e){
+    if(e.keyCode == 37)
+       {
+            dx = -2;
+       }
+       else if(e.keyCode == 39)
+    {
+        dx = 2;
+    }    
+}
+
+function stop(e)
+{
+        if(e.keyCode == 37)
+       {
+            dx = 0;
+       }
+       else if(e.keyCode == 39)
+    {
+        dx = 0;
+    }    
+}
+
+document.addEventListener('keydown',ruchPostaci,false);
+document.addEventListener('keyup',stop,false);
+
+
+
+function grawitacja()
+{
+    dy = 3;
+    
+    for(var i=0; i <platormy.length;i++)
+    {
+        if(yPos + wysPos > platormy[i].y &&
+          yPos + 0.8*wysPos < platormy[i].y &&
+          xPos + szerPos/2 >platormy[i].x &&
+          xPos + szerPos/2< platormy[i].x +platormy[i].szer)
+           {
+           dy=0;           
+           }
+    }
+    
+    yPos = yPos +dy;
 }
 
 setInterval(rysuj,10);
