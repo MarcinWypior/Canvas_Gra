@@ -41,6 +41,8 @@ var yPos= 20;
 var szerPos=50;
 var wysPos=50;
 var hp=100;
+var wysSkok = 120;
+var licznik = 0;
 
 var dy=0;
 
@@ -68,6 +70,10 @@ function ruchPostaci(e){
     {
         dx = 2;
     }    
+    else if(e.keyCode == 38  &&  dy==0)
+      {
+          dy = -3;
+      }
 }
 
 function stop(e)
@@ -79,7 +85,8 @@ function stop(e)
        else if(e.keyCode == 39)
     {
         dx = 0;
-    }    
+    } 
+    
 }
 
 document.addEventListener('keydown',ruchPostaci,false);
@@ -89,19 +96,33 @@ document.addEventListener('keyup',stop,false);
 
 function grawitacja()
 {
-    dy = 3;
     
-    for(var i=0; i <platormy.length;i++)
+    if(dy >= 0)
     {
-        if(yPos + wysPos > platormy[i].y &&
-          yPos + 0.8*wysPos < platormy[i].y &&
-          xPos + szerPos/2 >platormy[i].x &&
-          xPos + szerPos/2< platormy[i].x +platormy[i].szer)
-           {
-           dy=0;           
-           }
+        dy = 3;
+
+        for(var i=0; i <platormy.length;i++)
+        {
+            if(yPos + wysPos > platormy[i].y &&
+              yPos + 0.8*wysPos < platormy[i].y &&
+              xPos + szerPos/2 >platormy[i].x &&
+              xPos + szerPos/2< platormy[i].x +platormy[i].szer)
+               {
+               dy=0;           
+               }
+
+        }
     }
-    
+    else
+    {
+            licznik = licznik + 3;
+            if(licznik >= wysSkok)
+            {
+                dy =0;
+                licznik =0;
+            }
+    }
+      
     yPos = yPos +dy;
 }
 
